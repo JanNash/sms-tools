@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 
 """
@@ -26,3 +27,13 @@ def genSine(A, f, phi, fs, t):
         x (numpy array) = The generated sinusoid (use np.cos())
     """
     ## Your code here
+    from functools import partial
+
+    def sinAtTimeIndex(timeIndex, A, f, phi, fs):
+        return A * np.cos(((timeIndex * 2 * np.pi * f * (1.0 / fs)) + phi))
+
+    numOfSamples = int(t * fs)
+
+    preEvalFunc = partial(sinAtTimeIndex, A=A, f=f, phi=phi, fs=fs)
+
+    return np.array([preEvalFunc(timeIndex=i) for i in range(numOfSamples)])
