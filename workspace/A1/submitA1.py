@@ -60,16 +60,16 @@ def loginPrompt():
 
 def basicPrompt():
   """Prompt the user for login credentials. Returns a tuple (login, password)."""
-  login = raw_input('Login (Email address): ')
-  password = raw_input('One-time Password (from the assignment page. This is NOT your own account\'s password): ')
-  return login, password
+  # login = raw_input('Login (Email address): ')
+  # password = raw_input('One-time Password (from the assignment page. This is NOT your own account\'s password): ')
+  return 'jnash@jnash.de', 'R2WBdex6XG'
 
 def partPrompt():
-  print 'Hello! These are the assignment parts that you can submit:'
-  counter = 0
-  for part in partFriendlyNames:
-    counter += 1
-    print str(counter) + ') ' + partFriendlyNames[counter - 1]
+  # print 'Hello! These are the assignment parts that you can submit:'
+  counter = len(partFriendlyNames)
+  # for part in partFriendlyNames:
+    # counter += 1
+    # print str(counter) + ') ' + partFriendlyNames[counter - 1]
   partIdx = int(raw_input('Please enter which part you want to submit (1-' + str(counter) + '): ')) - 1
   return (partIdx, partIds[partIdx])
 
