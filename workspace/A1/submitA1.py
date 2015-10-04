@@ -14,6 +14,10 @@ import pickle
 import json
 import base64
 import numpy as np
+from workspace import (
+  LOGIN,
+  PASSWORD
+)
 
 """"""""""""""""""""
 """"""""""""""""""""
@@ -62,7 +66,7 @@ def basicPrompt():
   """Prompt the user for login credentials. Returns a tuple (login, password)."""
   # login = raw_input('Login (Email address): ')
   # password = raw_input('One-time Password (from the assignment page. This is NOT your own account\'s password): ')
-  return 'jnash@jnash.de', 'R2WBdex6XG'
+  return LOGIN, PASSWORD
 
 def partPrompt():
   # print 'Hello! These are the assignment parts that you can submit:'
