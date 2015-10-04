@@ -1,5 +1,3 @@
-import sys
-import os
 from software.models.utilFunctions import wavread
 
 """
@@ -31,6 +29,7 @@ def readAudio(inputFile):
     """
         
     ## Your code here
-    a = wavread(inputFile)
+    # _ is the samplerate, which we don't care about in this exercise
+    _, samples = wavread(inputFile)
 
-    return a[50001:50011]
+    return samples[50000:50010]
