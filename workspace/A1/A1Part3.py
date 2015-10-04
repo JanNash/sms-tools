@@ -1,5 +1,3 @@
-import numpy as np
-
 """
 A1-Part-3: Python array indexing
 
