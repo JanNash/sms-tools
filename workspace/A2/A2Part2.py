@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 
 """
@@ -26,3 +27,11 @@ def genComplexSine(k, N):
         cSine (numpy array) = The generated complex sinusoid (length N)
     """
     ## Your code here
+    from functools import partial
+
+    def complexSineAtTimeIndex(timeIndex, k, N):
+        return np.e ** (-2j * np.pi * k * timeIndex / N)
+
+    preEvalFunc = partial(complexSineAtTimeIndex, k=k, N=N)
+
+    return np.array([preEvalFunc(timeIndex=timeIndex) for timeIndex in range(N)])
