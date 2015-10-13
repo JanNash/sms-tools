@@ -29,9 +29,9 @@ def genComplexSine(k, N):
     ## Your code here
     from functools import partial
 
-    def complexSineAtTimeIndex(n, k, N):
+    def complexSineAtIndex(n, k, N):
         return np.e ** (-2j * np.pi * k * n / N)
 
-    complexSine = partial(complexSineAtTimeIndex, k=k, N=N)
+    complexSine = partial(complexSineAtIndex, k=k, N=N)
 
     return np.array([complexSine(n) for n in range(N)])

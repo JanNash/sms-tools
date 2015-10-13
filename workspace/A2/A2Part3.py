@@ -28,11 +28,11 @@ def DFT(x):
     ## Your code here
     from functools import partial
 
-    def complexSineAtTimeIndex(n, k, N):
+    def complexSineAtIndex(n, k, N):
         return np.e ** (-2j * np.pi * k * n / N)
 
     N = len(x)
 
-    complexSine = partial(complexSineAtTimeIndex, N=len(x))
+    complexSine = partial(complexSineAtIndex, N=len(x))
 
     return np.array([sum([x[n] * complexSine(n=n, k=k) for n in range(N)]) for k in range(N)])
