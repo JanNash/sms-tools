@@ -22,3 +22,6 @@ def genMagSpec(x):
                              (length N)
     """
     ## Your code here
+    from A2Part3 import DFT
+
+    return abs(DFT(x))
