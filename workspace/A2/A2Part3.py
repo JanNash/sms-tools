@@ -26,3 +26,13 @@ def DFT(x):
         X (numpy array) = The N point DFT of the input sequence x
     """
     ## Your code here
+    from functools import partial
+
+    def complexSineAtTimeIndex(n, k, N):
+        return np.e ** (-2j * np.pi * k * n / N)
+
+    N = len(x)
+
+    complexSine = partial(complexSineAtTimeIndex, N=len(x))
+
+    return np.array([sum([x[n] * complexSine(n=n, k=k) for n in range(N)]) for k in range(N)])
