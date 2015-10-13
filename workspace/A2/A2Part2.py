@@ -29,9 +29,9 @@ def genComplexSine(k, N):
     ## Your code here
     from functools import partial
 
-    def complexSineAtTimeIndex(timeIndex, k, N):
-        return np.e ** (-2j * np.pi * k * timeIndex / N)
+    def complexSineAtTimeIndex(n, k, N):
+        return np.e ** (-2j * np.pi * k * n / N)
 
-    preEvalFunc = partial(complexSineAtTimeIndex, k=k, N=N)
+    complexSine = partial(complexSineAtTimeIndex, k=k, N=N)
 
-    return np.array([preEvalFunc(timeIndex=timeIndex) for timeIndex in range(N)])
+    return np.array([complexSine(n) for n in range(N)])
