@@ -30,7 +30,7 @@ def genComplexSine(k, N):
     from functools import partial
 
     def complexSineAtIndex(n, k, N):
-        return np.e ** (-2j * np.pi * k * n / N)
+        return np.e ** (-2j * np.pi * k * (n / N))
 
     complexSine = partial(complexSineAtIndex, k=k, N=N)
 

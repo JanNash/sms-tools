@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 
 """
@@ -33,3 +34,13 @@ def IDFT(X):
         x (numpy array) = The N point IDFT of the frequency spectrum X
     """
     ## Your code here
+    from functools import partial
+
+    def complexCosineAtIndex(k, n, N):
+        return np.e ** (2j * np.pi * k * (n / N))
+
+    N = len(X)
+
+    complexCosine = partial(complexCosineAtIndex, N=N)
+
+    return np.array([(1 / N) * sum([X[k] * complexCosine(k=k, n=n) for k in range(N)]) for n in range(N)])

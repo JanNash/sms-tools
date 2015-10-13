@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 
 """
@@ -29,7 +30,7 @@ def DFT(x):
     from functools import partial
 
     def complexSineAtIndex(n, k, N):
-        return np.e ** (-2j * np.pi * k * n / N)
+        return np.e ** (-2j * np.pi * k * (n / N))
 
     N = len(x)
 
