@@ -1,4 +1,6 @@
-﻿from scipy.fftpack import fft
+﻿from __future__ import division
+
+from scipy.fftpack import fft
 import numpy as np
 from fractions import gcd
 
@@ -59,5 +61,66 @@ def minimizeEnergySpreadDFT(x, fs, f1, f2):
         The function should return 
         mX (numpy array) = The positive half of the DFT spectrum (in dB) of the M sample segment of x. 
                            mX is (M/2)+1 samples long (M is to be computed)
+
+    :type x: np.array
+    :type fs: float
+    :type f1: float
+    :type f2: float
+    :rtype: np.array
     """
     ## Your code here
+    samplePeriod1 = fs // f1
+    samplePeriod2 = fs // f2
+
+    numberOfSamples = (samplePeriod1 * samplePeriod2) // gcd(samplePeriod1, samplePeriod2)
+
+    print(numberOfSamples)
+
+    dftOfx = fft(x=x, n=numberOfSamples)
+
+    positiveHalf = dftOfx[:(numberOfSamples // 2) + 1]
+
+    return 20 * np.log10(abs(positiveHalf))
+
+
+def test_minimizeEnergySpreadDFT(fs, f1, f2):
+    from workspace.A2.A2Part1 import genSine
+    from random import uniform
+
+    t = uniform(0, 5)
+
+    amp1 = uniform(0, 10)
+    amp2 = uniform(0, 10)
+
+    phi1 = uniform(-10, 10)
+    phi2 = uniform(-10, 10)
+
+    print('Generating two sinusoids at sampling rate {fs} Hz with a duration of {t} seconds...'
+          ''.format(fs=fs, t=t))
+    print('First sinusoid has an amplitude of {amp}, a frequency of {f} Hz, and a phase offset of {phi}...'
+          ''.format(amp=amp1, f=f1, phi=phi1))
+    sin1 = genSine(A=amp1, f=f1, phi=phi1, fs=fs, t=t)
+
+    print('Second sinusoid has an amplitude of {amp}, a frequency of {f} Hz, and a phase offset of {phi}...'
+          ''.format(amp=amp2, f=f2, phi=phi2))
+    sin2 = genSine(A=amp2, f=f2, phi=phi2, fs=fs, t=t)
+
+    x = sin1 + sin2
+
+    print('Calculating minimized energy spread DFT...')
+    mx = minimizeEnergySpreadDFT(x=x, fs=fs, f1=f1, f2=f2)
+    print('Calculated minimized energy spread DFT...')
+
+    length = len(mx)
+
+    print('Length of mx: {length}'.format(length=length))
+
+    for i in range(length):
+        val = mx[i]
+        if val > -120:
+            print('Found value greater than -120dB at index {ind}'.format(ind=i))
+            print('Value is {val}'.format(val=val))
+
+
+test_minimizeEnergySpreadDFT(fs=10000, f1=80, f2=200)
+test_minimizeEnergySpreadDFT(fs=48000, f1=300, f2=800)
