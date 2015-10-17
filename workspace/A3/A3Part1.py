@@ -78,7 +78,7 @@ def minimizeEnergySpreadDFT(x, fs, f1, f2):
 
     positiveHalf = dftOfx[:(numberOfSamples // 2) + 1]
 
-    return 20 * np.log10(abs(positiveHalf))
+    return 20 * np.array(np.log10(abs(positiveHalf)))
 
 
 def test_minimizeEnergySpreadDFT(fs, f1, f2):
