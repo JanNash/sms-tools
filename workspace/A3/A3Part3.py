@@ -49,3 +49,15 @@ def testRealEven(x):
         X (numpy array, possibly complex) = The M point DFT of dftbuffer 
     """
     ## Your code here
+    m = len(x)
+    middle = (m // 2)
+    dftbuffer = np.append(x[middle:], x[:middle])
+    dft = fft(dftbuffer, m)
+
+    isRealAndEven = True
+    for val in dft:
+        if val.imag > 1e-6:
+            isRealAndEven = False
+            break
+
+    return (isRealAndEven, dftbuffer, dft)
