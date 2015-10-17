@@ -120,7 +120,3 @@ def test_minimizeEnergySpreadDFT(fs, f1, f2):
         if val > -120:
             print('Found value greater than -120dB at index {ind}'.format(ind=i))
             print('Value is {val}'.format(val=val))
-
-
-test_minimizeEnergySpreadDFT(fs=10000, f1=80, f2=200)
-test_minimizeEnergySpreadDFT(fs=48000, f1=300, f2=800)
