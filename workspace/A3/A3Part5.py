@@ -1,10 +1,9 @@
 ﻿import numpy as np
 import sys
-sys.path.append('../../software/models/')
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
 from scipy.signal import get_window
-from dftModel import dftAnal
+from software.models.dftModel import dftAnal
 """
 A3-part-5: FFT size and zero-padding (Optional)
 
@@ -60,4 +59,10 @@ def zpFFTsizeExpt(x, fs):
     xseg = x[:M]
     w1 = get_window('hamming',M)
     w2 = get_window('hamming',2*M)
-    ## Your code here 
+    ## Your code here
+
+    mx1, _ = dftAnal(x=xseg, w=w1, N=256)
+    mx2, _ = dftAnal(x=x, w=w2, N=512)
+    mx3, _ = dftAnal(x=xseg, w=w1, N=512)
+
+    return (mx1[:80], mx2[:80], mx3[:80])
