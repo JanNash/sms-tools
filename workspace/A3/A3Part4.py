@@ -1,6 +1,5 @@
 import sys
-sys.path.append('../../software/models/')
-from dftModel import dftAnal, dftSynth
+from software.models.dftModel import dftAnal, dftSynth
 from scipy.signal import get_window
 import matplotlib.pyplot as plt
 import numpy as np
@@ -61,3 +60,13 @@ def suppressFreqDFTmodel(x, fs, N):
     outputScaleFactor = sum(w)
     
     ## Your code here
+    mX, pX = dftAnal(x=x, w=w, N=N)
+
+    cutInd = np.ceil(70. * N / fs)
+    mXfilt = mX.copy()
+    mXfilt[:cutInd] = -120
+
+    y = dftSynth(mX=mX, pX=pX, M=M) * sum(w)
+    yfilt = dftSynth(mX=mXfilt, pX=pX, M=M) * sum(w)
+
+    return (y, yfilt)
