@@ -56,42 +56,42 @@ def optimalZeropad(x, fs, f):
                         x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
     """
     ## Your code here
-    periodLength = fs // f
+    periodLength = float(fs / f)
     signalLength = len(x)
 
-    periods = float(signalLength) / float(periodLength)
+    periods = signalLength / periodLength
 
-    n = int(signalLength + ((np.ceil(periods) - periods) * periodLength))
+    n = np.ceil(periods) * periodLength
 
     dft = fft(x, n)
 
-    return 20 * np.array(np.log10(dft[:((n / 2) + 1)]))
+    return 20 * np.log10(abs(dft[:((n / 2) + 1)]))
 
 
-# def test_minimizeEnergySpreadDFT(f, fs, m):
-#     from workspace.A2.A2Part1 import genSine
-#     from random import uniform
-#
-#     t = uniform(0, 5)
-#     amp = uniform(0, 10)
-#     phi = uniform(-10, 10)
-#
-#     print('Generating sinusoid at sampling rate {fs} Hz with a duration of {t} seconds...'
-#           ''.format(fs=fs, t=t))
-#     print('Sinusoid has an amplitude of {amp}, a frequency of {f} Hz, and a phase offset of {phi}...'
-#           ''.format(amp=amp, f=f, phi=phi))
-#     x = genSine(A=amp, f=f, phi=phi, fs=fs, t=t)
-#
-#     print('Only using the first {m} samples of the sinusoid...'.format(m=m))
-#     mx = optimalZeropad(x=x[:m], fs=fs, f=f)
-#
-#     length = len(mx)
-#     print('Length of mx: {length}'.format(length=length))
-#
-#     maximum = max(mx)
-#     ind = mx.argmax(axis=0)
-#     print('Maximum of mx: {maximum} dB at index {index}'.format(maximum=maximum, index=ind))
-#
-#
-# test_minimizeEnergySpreadDFT(f=100, fs=1000, m=25)
-# test_minimizeEnergySpreadDFT(f=250, fs=10000, m=210)
+def test_minimizeEnergySpreadDFT(f, fs, m):
+    from workspace.A2.A2Part1 import genSine
+    from random import uniform
+
+    t = uniform(0, 5)
+    amp = uniform(0, 10)
+    phi = uniform(-10, 10)
+
+    print('Generating sinusoid at sampling rate {fs} Hz with a duration of {t} seconds...'
+          ''.format(fs=fs, t=t))
+    print('Sinusoid has an amplitude of {amp}, a frequency of {f} Hz, and a phase offset of {phi}...'
+          ''.format(amp=amp, f=f, phi=phi))
+    x = genSine(A=amp, f=f, phi=phi, fs=fs, t=t)
+
+    print('Only using the first {m} samples of the sinusoid...'.format(m=m))
+    mx = optimalZeropad(x=x[:m], fs=fs, f=f)
+
+    length = len(mx)
+    print('Length of mx: {length}'.format(length=length))
+
+    maximum = max(mx)
+    ind = mx.argmax(axis=0)
+    print('Maximum of mx: {maximum} dB at index {index}'.format(maximum=maximum, index=ind))
+
+
+test_minimizeEnergySpreadDFT(f=100, fs=1000, m=25)
+test_minimizeEnergySpreadDFT(f=250, fs=10000, m=210)
