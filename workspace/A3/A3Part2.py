@@ -62,11 +62,16 @@ def optimalZeropad(x, fs, f):
     signalLength = len(x)
 
     n = signalLength + (period - (signalLength % period))
+    numOfPaddedZeros = n - signalLength
 
-    print(n)
+    paddedX = np.append(x, np.zeros(numOfPaddedZeros))
+
+    dftOfPaddedX = fft(paddedX, n)
+
+    return 20 * np.array(np.log10(dftOfPaddedX[:(n // 2) + 1]))
 
 
-def test_minimizeEnergySpreadDFT(fs, f, m):
+def test_minimizeEnergySpreadDFT(f, fs, m):
     from workspace.A2.A2Part1 import genSine
     from random import uniform
 
@@ -87,7 +92,8 @@ def test_minimizeEnergySpreadDFT(fs, f, m):
     print('Length of mx: {length}'.format(length=length))
 
     maximum = max(mx)
-    print('Maximum of mx: {maximum} dB at index {i}'.format(maximum=maximum, index=mx.index(maximum)))
+    ind = mx.argmax(axis=0)
+    print('Maximum of mx: {maximum} dB at index {index}'.format(maximum=maximum, index=ind))
 
 
-test_minimizeEnergySpreadDFT()
+test_minimizeEnergySpreadDFT(f=100, fs=1000, m=25)
