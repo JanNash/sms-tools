@@ -1,4 +1,6 @@
-﻿from scipy.fftpack import fft
+﻿from __future__ import division
+
+from scipy.fftpack import fft
 import numpy as np
 
 """
@@ -56,3 +58,36 @@ def optimalZeropad(x, fs, f):
                         x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
     """
     ## Your code here
+    period = fs // f
+    signalLength = len(x)
+
+    n = signalLength + (period - (signalLength % period))
+
+    print(n)
+
+
+def test_minimizeEnergySpreadDFT(fs, f, m):
+    from workspace.A2.A2Part1 import genSine
+    from random import uniform
+
+    t = uniform(0, 5)
+    amp = uniform(0, 10)
+    phi = uniform(-10, 10)
+
+    print('Generating sinusoid at sampling rate {fs} Hz with a duration of {t} seconds...'
+          ''.format(fs=fs, t=t))
+    print('Sinusoid has an amplitude of {amp}, a frequency of {f} Hz, and a phase offset of {phi}...'
+          ''.format(amp=amp, f=f, phi=phi))
+    x = genSine(A=amp, f=f, phi=phi, fs=fs, t=t)
+
+    print('Only using the first {m} samples of the sinusoid...'.format(m=m))
+    mx = optimalZeropad(x=x[:m], fs=fs, f=f)
+
+    length = len(mx)
+    print('Length of mx: {length}'.format(length=length))
+
+    maximum = max(mx)
+    print('Maximum of mx: {maximum} dB at index {i}'.format(maximum=maximum, index=mx.index(maximum)))
+
+
+test_minimizeEnergySpreadDFT()
