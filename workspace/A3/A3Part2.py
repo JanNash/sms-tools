@@ -94,6 +94,3 @@ def test_minimizeEnergySpreadDFT(f, fs, m):
     maximum = max(mx)
     ind = mx.argmax(axis=0)
     print('Maximum of mx: {maximum} dB at index {index}'.format(maximum=maximum, index=ind))
-
-
-test_minimizeEnergySpreadDFT(f=100, fs=1000, m=25)
