@@ -74,8 +74,6 @@ def minimizeEnergySpreadDFT(x, fs, f1, f2):
 
     numberOfSamples = (samplePeriod1 * samplePeriod2) // gcd(samplePeriod1, samplePeriod2)
 
-    print(numberOfSamples)
-
     dftOfx = fft(x=x, n=numberOfSamples)
 
     positiveHalf = dftOfx[:(numberOfSamples // 2) + 1]
