@@ -1,6 +1,4 @@
-﻿from __future__ import division
-
-from scipy.fftpack import fft
+﻿from scipy.fftpack import fft
 import numpy as np
 
 """
@@ -58,12 +56,12 @@ def optimalZeropad(x, fs, f):
                         x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
     """
     ## Your code here
-    periodLength = fs / f
+    periodLength = fs // f
     signalLength = len(x)
 
-    periods = signalLength / periodLength
+    periods = float(signalLength) / float(periodLength)
 
-    n = signalLength + ((np.ceil(periods) - periods) * periodLength)
+    n = int(signalLength + ((np.ceil(periods) - periods) * periodLength))
 
     dft = fft(x, n)
 
