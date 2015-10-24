@@ -55,8 +55,9 @@ def submit():
 
 def loginPrompt():
   """Prompt the user for login credentials. Returns a tuple (login, password)."""
-  (login, password) = basicPrompt()
-  return login, password
+  # (login, password) = basicPrompt()
+  from workspace import LOGIN, PASSWORD
+  return LOGIN, PASSWORD
 
 
 def basicPrompt():
