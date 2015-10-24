@@ -61,4 +61,26 @@ def extractMainLobe(window, M):
     w = get_window(window, M)         # get the window 
     
     ### Your code here
-    
+
+    x = fft(w, n=(8 * M))
+
+    centeredX = fftshift(x)
+    centeredX += eps
+
+    xInDB = 20 * np.array(np.log10(abs(centeredX)))
+
+    mainLobeMaxIndex = xInDB.argmax()
+
+    leftMin = rightMin = xInDB[mainLobeMaxIndex]
+
+    leftIndex = mainLobeMaxIndex - 1
+    while xInDB[leftIndex - 1] < leftMin:
+        leftIndex -= 1
+        leftMin = xInDB[leftIndex]
+
+    rightIndex = mainLobeMaxIndex + 1
+    while xInDB[rightIndex + 1] < rightMin:
+        rightIndex += 1
+        rightMin = xInDB[rightIndex]
+
+    return xInDB[leftIndex:(rightIndex + 1)]
