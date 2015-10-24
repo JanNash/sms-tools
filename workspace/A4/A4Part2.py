@@ -5,9 +5,8 @@ import math
 from scipy.signal import get_window
 import matplotlib.pyplot as plt
 
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../software/models/'))
-import stft
-import utilFunctions as UF
+from software.models.stft import  stft
+from software.models import utilFunctions as UF
 eps = np.finfo(float).eps
 
 
