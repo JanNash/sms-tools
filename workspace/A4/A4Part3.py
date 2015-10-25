@@ -97,7 +97,7 @@ def computeEngEnv(inputFile, window, M, N, H):
 
     length = len(linearMX)
 
-    result = np.empty((length, 2))
+    result = np.empty(shape=(length, 2))
 
     for n in range(length):
         engEnvLow = sum(abs(linearMX[n, k0:k1]) ** 2)

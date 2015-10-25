@@ -5,9 +5,9 @@ from scipy.signal import get_window
 import matplotlib.pyplot as plt
 import math
 
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../software/models/'))
-import stft
-import utilFunctions as UF
+from software.models import stft
+from software.models import utilFunctions as UF
+from loadTestCases import load
 
 eps = np.finfo(float).eps
 
@@ -85,3 +85,20 @@ def computeODF(inputFile, window, M, N, H):
     """
     
     ### your code here
+    from A4Part3 import computeEngEnv
+
+    engEnvelopes = computeEngEnv(inputFile=inputFile, window=window, M=M, N=N, H=H)
+
+    length = len(engEnvelopes)
+
+    result = np.empty(shape=(length, 2))
+
+    result[0] = [0, 0]
+
+    for n in range(1, length):
+        oLow = engEnvelopes[n, 0] - engEnvelopes[(n - 1), 0]
+        oHigh = engEnvelopes[n, 1] - engEnvelopes[(n - 1), 1]
+
+        result[n] = [max(0, oLow), max(0, oHigh)]
+
+    return result
