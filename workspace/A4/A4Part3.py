@@ -1,12 +1,14 @@
+from __future__ import division
+
 import os
 import sys
 import numpy as np
 from scipy.signal import get_window
 import matplotlib.pyplot as plt
 
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../software/models/'))
-import stft
-import utilFunctions as UF
+from software.models import stft
+from software.models import utilFunctions as UF
+from loadTestCases import load
 
 eps = np.finfo(float).eps
 
@@ -82,4 +84,28 @@ def computeEngEnv(inputFile, window, M, N, H):
     """
     
     ### your code here
-    
+
+    fs, x = UF.wavread(inputFile)
+    w = get_window(window=window, Nx=M)
+
+    mX, _ = stft.stftAnal(x=x, fs=fs, w=w, N=N, H=H)
+    linearMX = 10 ** (np.array(mX) / 20)
+
+    k0 = 1
+    k1 = np.ceil(3000. * N / fs)
+    k2 = np.ceil(10000. * N / fs)
+
+    length = len(linearMX)
+
+    result = np.empty((length, 2))
+
+    for n in range(length):
+        engEnvLow = sum(abs(linearMX[n, k0:k1]) ** 2)
+        engEnvHigh = sum(abs(linearMX[n, k1:k2]) ** 2)
+
+        engEnvLowInDB = 10 * np.log10(engEnvLow)
+        engEnvHighInDB = 10 * np.log10(engEnvHigh)
+
+        result[n] = [engEnvLowInDB, engEnvHighInDB]
+
+    return result
