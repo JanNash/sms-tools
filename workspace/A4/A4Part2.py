@@ -1,3 +1,5 @@
+from __future__ import division
+
 import os
 import sys
 import numpy as np
@@ -5,7 +7,7 @@ import math
 from scipy.signal import get_window
 import matplotlib.pyplot as plt
 
-from software.models.stft import  stft
+from software.models.stft import stft
 from software.models import utilFunctions as UF
 eps = np.finfo(float).eps
 
@@ -59,3 +61,25 @@ def computeSNR(inputFile, window, M, N, H):
             SNR1 and SNR2 are floats.
     """
     ## your code here
+
+    def energy(x):
+        return sum([(abs(xn) ** 2) for xn in x])
+
+    def snr(ESignal, ENoise):
+        return 10 * np.log10((ESignal / ENoise))
+
+    fs, x = UF.wavread(inputFile)
+    w = get_window(window=window, Nx=M)
+
+    a1 = stft(x=x, fs=fs, w=w, N=N, H=H)
+    a2 = a1[M:-M]
+
+    noise1 = a1 - x
+    noise2 = a2 - x[M:-M]
+
+    Ex = energy(x)
+
+    snr1 = snr(Ex, energy(noise1))
+    snr2 = snr(Ex, energy(noise2))
+
+    return (snr1, snr2)
