@@ -1,10 +1,10 @@
+from __future__ import division
+
 import numpy as np
 from scipy.signal import get_window
 import math
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../software/models/'))
-import dftModel as DFT
-import utilFunctions as UF
+from software.models import dftModel as DFT
+from software.models import utilFunctions as UF
 
 """ 
 A5-Part-1: Minimizing the frequency estimation error of a sinusoid
@@ -61,3 +61,31 @@ def minFreqEstErr(inputFile, f):
     t = -40
     
     ### Your code here
+    def powerOfTwoBiggerThan(x):
+        return 1 << (x - 1).bit_length()
+
+    fs, x = UF.wavread(inputFile)
+
+    halfSecIndex = int(fs * 0.5)
+
+    k = 1
+    estErr = 1
+    fEst = None
+    M = None
+    N = None
+
+    while estErr > 0.05:
+        k += 1
+        M = (100 * k) + 1
+        w = get_window(window, M)
+        start = int(halfSecIndex - (M / 2)) + 1
+        end = int(halfSecIndex + (M / 2)) + 1
+        N = powerOfTwoBiggerThan(M)
+        xAn = x[start:end]
+        mX, pX = DFT.dftAnal(xAn, w, N)
+        ploc = UF.peakDetection(mX, t)
+        iploc, imX, ipX = UF.peakInterp(mX, pX, ploc)
+        fEst = fs * iploc / N
+        estErr = abs(f - fEst)
+
+    return (fEst[0], M, N)
