@@ -62,7 +62,7 @@ def chirpTracker(inputFile='../../sounds/chirp-150-190-linear.wav'):
            K is the number of frames
     """
     # Analysis parameters: Modify values of the parameters marked XX
-    M = XX                                # Window size in samples
+    M = 3300                                # Window size in samples
     
     ### Go through the code below and understand it, do not modify anything ###    
     H = 128                                     # Hop size in samples
@@ -82,8 +82,8 @@ def chirpTracker(inputFile='../../sounds/chirp-150-190-linear.wav'):
     fTrackTrue = genTrueFreqTracks(tStamps)     # Generate the true frequency tracks
     tailF = 20                                 
     # Compute mean estimation error. 20 frames at the beginning and end not used to compute error
-    meanErr = np.mean(np.abs(fTrackTrue[tailF:-tailF,:] - fTrackEst[tailF:-tailF,:]),axis=0)     
-    print "Mean estimation error = " + str(meanErr) + ' Hz'      # Print the error to terminal    
+    meanErr = np.mean(np.abs(fTrackTrue[tailF:-tailF,:] - fTrackEst[tailF:-tailF,:]),axis=0)
+    print "Mean estimation error = " + str(meanErr) + ' Hz'      # Print the error to terminal
     # Plot the estimated and true frequency tracks
     mX, pX = stft.stftAnal(x, fs, w, N, H)
     maxplotfreq = 1500.0
@@ -96,7 +96,7 @@ def chirpTracker(inputFile='../../sounds/chirp-150-190-linear.wav'):
     plt.ylabel('Frequency (Hz)')
     plt.autoscale(tight=True)
     plt.show()
-    return M, H, tStamps, fTrackEst, fTrackTrue  # Output returned 
+    return M, H, tStamps, fTrackEst, fTrackTrue  # Output returned
 
 ### Do not modify this function
 def genTimeStamps(xlen, M, fs, H):
@@ -117,4 +117,3 @@ def genTrueFreqTracks(tStamps):
     fTrack[:,0] = np.transpose(np.linspace(190, 190+1250, len(tStamps)))
     fTrack[:,1] = np.transpose(np.linspace(150, 150+1250, len(tStamps)))
     return fTrack
-    
