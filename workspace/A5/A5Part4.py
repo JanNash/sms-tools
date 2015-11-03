@@ -1,10 +1,9 @@
 import numpy as np
 from scipy.signal import get_window
 import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../software/models/'))
-import utilFunctions as UF
-import sineModel as SM
-import stft
+from software.models import utilFunctions as UF
+from software.models import sineModel as SM
+from software.models import stft
 import matplotlib.pyplot as plt
 
 """
@@ -81,6 +80,7 @@ def selectFlatPhasePeak(pX, p, phaseDevThres):
             selectFlag (Boolean) = True, if the peak at index p is a mainlobe, False otherwise
     """
     #Your code here
+    return bool(np.std(pX[(p - 2):(p + 3)]) < phaseDevThres)
     
 
 ### Go through the code below and understand it, but do not modify anything ###
@@ -139,7 +139,7 @@ def sineModelAnalEnhanced(inputFile= '../../sounds/sines-440-602-transient.wav')
     maxplotfreq = 1500.0
     binFreq = fs*np.arange(N*maxplotfreq/fs)/N
     numFrames = int(mX[:,0].size)
-    frmTime = H*np.arange(numFrames)/float(fs) 
+    frmTime = H*np.arange(numFrames)/float(fs)
     plt.pcolormesh(frmTime, binFreq, np.transpose(mX[:,:N*maxplotfreq/fs+1]), cmap='hot_r')
     plt.plot(tStamps,tfreq[:,0], color = 'y', linewidth=2.0)
     plt.plot(tStamps,tfreq[:,1], color = 'c', linewidth=2.0)
