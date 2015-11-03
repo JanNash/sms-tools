@@ -69,8 +69,8 @@ def mainlobeTracker(inputFile = '../../sounds/sines-440-602-hRange.wav'):
            fTrackTrue = A Kx2 numpy array of true frequency values, one row per time frame, one column per component
     """       
     # Analysis parameters: Modify values of the parameters marked XX
-    window = XX                                          # Window type
-    t = XX                                               # threshold (negative dB)
+    window = 'blackman'                                          # Window type
+    t = -120                                               # threshold (negative dB)
     
     ### Go through the code below and understand it, do not modify anything ###   
     M = 2047                                             # Window size 
@@ -89,7 +89,7 @@ def mainlobeTracker(inputFile = '../../sounds/sines-440-602-hRange.wav'):
     fTrackTrue = genTrueFreqTracks(tStamps)     # Generate the true frequency tracks
     tailF = 20                                 
     # Compute mean estimation error. 20 frames at the beginning and end not used to compute error
-    meanErr = np.mean(np.abs(fTrackTrue[tailF:-tailF,:] - fTrackEst[tailF:-tailF,:]),axis=0)     
+    meanErr = np.mean(np.abs(fTrackTrue[tailF:-tailF,:] - fTrackEst[tailF:-tailF,:]),axis=0)
     print "Mean estimation error = " + str(meanErr) + ' Hz'      # Print the error to terminal
     # Plot the estimated and true frequency tracks
     mX, pX = stft.stftAnal(x, fs, w, N, H)
@@ -102,7 +102,7 @@ def mainlobeTracker(inputFile = '../../sounds/sines-440-602-hRange.wav'):
     plt.xlabel('Time (s)')
     plt.ylabel('Frequency (Hz)')
     plt.autoscale(tight=True)
-    return window, float(t), tStamps, fTrackEst, fTrackTrue  # Output returned 
+    return window, float(t), tStamps, fTrackEst, fTrackTrue  # Output returned
 
 ### Do not modify this function
 def genTimeStamps(xlen, M, fs, H):
